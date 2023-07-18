@@ -1,0 +1,61 @@
+#!/bin/bash
+
+#frist update uuntu system package.
+
+sudo apt update
+sudo apt upgrade -y
+
+#install and enable docker
+
+sudo apt install docker.io -y
+sudo systemctl enable --now docker
+
+#Add the Kubernetes repository and install the necessary packages:
+
+sudo apt install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+#update
+sudo apt update
+
+#install kubeadm kubectl and kunelet
+
+sudo apt install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+
+#Disable swap:
+
+#Kubernetes requires swap to be disabled. Open the /etc/fstab file and comment out any lines that reference swap partitions. Then run the following command
+
+sudo swapoff -a
+#Initialize the Kubernetes cluster:
+
+#sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+#After the command completes, note down the kubeadm join command displayed at the end. You'll need it to join worker nodes to the cluster.
+#Set up the kubeconfig:
+
+#Configure the Kubernetes CLI (kubectl) for the user by running the following commands:
+#bash
+#Copy code
+#mkdir -p $HOME/.kube
+#sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+#sudo chown $(id -u):$(id -g) $HOME/.kube/config
+#Install Flannel as the pod network add-on:
+
+#Run the following command to install Flannel as the networking solution for your cluster:
+#ruby
+#Copy code
+#kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+#Join worker nodes to the cluster:
+
+#On each worker node, run the kubeadm join command that you noted down in step 7.
+#Verify the cluster:
+
+#On the master node, run the following command to check the status of the cluster:
+
+#arduino
+#Copy code
+#kubectl get nodes
+#The output should show all nodes (master and workers) in the "Ready" state."
+                                        
