@@ -30,6 +30,10 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo swapoff -a
 #Initialize the Kubernetes cluster:
+git clone https://github.com/kuldippp/KUBEADM-INSTALLATION-FILE1.git
+cd KUBEADM-INSTALLATION-FILE1
+chmod 777 adm-install
+./adm-install
 
 #sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 #After the command completes, note down the kubeadm join command displayed at the end. You'll need it to join worker nodes to the cluster.
